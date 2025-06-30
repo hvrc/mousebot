@@ -24,5 +24,5 @@ def test_completion(request):
     print(f"\nRunning {test_name}...")
     yield
     next_item = request.node.nextitem
-    next_test = f"start {next_item.name}" if next_item else "finish"
+    next_test = f"start {next_item.name}" if next_item else "continue"
     input(f"{test_name} completed. Press Enter to {next_test}...")
