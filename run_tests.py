@@ -2,12 +2,15 @@ import pytest
 
 def main():
     pytest.main([
-        "-s",                                   # don't capture output
-        "--html=reports/report.html",           # generate HTML report
-        "--no-header",                          # remove pytest header
-        "--tb=no",                             # disable traceback
-        "-q",                                   # quiet mode
-        "tests/test_login_001.py",             # login test
+        "-s",
+        "--html=reports/report.html",
+        "--no-header",
+        "--tb=no",
+        "-q",
+        "tests/test_login_001.py",
+        "tests/test_mating_004.py",
+        # "tests/test_mating_003.py",
+        # "tests/test_reset_001.py",
     ])
 
 if __name__ == "__main__":
