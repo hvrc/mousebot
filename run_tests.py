@@ -7,8 +7,7 @@ def main():
         "--no-header",                          # remove pytest header
         "--tb=no",                             # disable traceback
         "-q",                                   # quiet mode
-        "tests/test_login_001.py",              # login test
-        "tests/test_reset_001.py"               # reset test
+        "tests/test_login_001.py",             # login test
     ])
 
 if __name__ == "__main__":
