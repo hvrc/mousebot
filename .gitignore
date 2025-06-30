@@ -36,3 +36,5 @@ debug.log
 *.swp
 .vs/
 Thumbs.db
+config/credentials.ini
+**/credentials.ini
