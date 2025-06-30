@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.login_page import LoginPage
 import time
 
-def test_login_and_navigate_home(driver, config):
+def test_login(driver, config):
     login_page = LoginPage(driver)
     
     # Navigate to login page
