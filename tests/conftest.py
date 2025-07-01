@@ -26,3 +26,22 @@ def driver():
 def config():
     from utilities.config_reader import get_config
     return get_config()['dev']
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # Execute all other hooks to obtain the report object
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == 'call' and rep.failed:
+        driver = None
+        # Try to get driver from fixture
+        if 'driver' in item.fixturenames:
+            driver = item.funcargs['driver']
+        else:
+            # Try global driver
+            from tests.conftest import get_global_driver
+            driver = get_global_driver()
+        if driver:
+            from utilities.screenshot import take_screenshot
+            test_name = item.name.replace(' ', '_')
+            take_screenshot(driver, name=f"FAIL_{test_name}")
