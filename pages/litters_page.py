@@ -12,7 +12,9 @@ class LittersPage(BasePage):
     FIRST_LITTER_CHECKBOX_XPATH = "//table[@id='litter_table']//tbody//tr[@id]//input[contains(@class, 'cbox')]"
     ANIMALS_TAB_XPATH = "//a[contains(@href, 'smdb/mouse/list.do') and contains(text(), 'Animals')]"
     EMPTY_MESSAGE_XPATH = "//span[contains(text(), 'No litters to show!')]"
-    
+    LITTER_PUPS_CHECKBOX_CSS = "#litterTable tbody tr[id] input.cbox"
+    PUP_WEAN_CHECKBOX_CSS = "#mouseTableWean tbody tr[id] input.cbox"
+
     # ID selectors
     FIRST_MATING_CHECKBOX_ID = "matinglist_table"
     NEW_LITTER_BTN_ID = "newLitter4MatingMenuButton"
@@ -40,6 +42,23 @@ class LittersPage(BasePage):
     POPUP_OK_BTN = (By.XPATH, POPUP_OK_BTN_XPATH)
     HOME_BUTTON = (By.XPATH, HOME_BUTTON_XPATH)
     LITTERS_TAB = (By.XPATH, LITTERS_TAB_XPATH)
+    ADD_PUPS_BTN = (By.ID, ADD_PUPS_BTN_ID)
+    MALES_DROPDOWN = (By.ID, MALES_DROPDOWN_ID)
+    SUBMIT_PUPS_BTN = (By.ID, SUBMIT_PUPS_BTN_ID)
+    APPLY_BUTTON = (By.ID, APPLY_BUTTON_ID)
+    WEAN_LITTERS_BTN = (By.ID, WEAN_LITTERS_BTN_ID)
+    WEAN_MOVE_BTN = (By.ID, WEAN_MOVE_BTN_ID)
+    CREATE_UPDATE_CAGES_BTN = (By.ID, CREATE_UPDATE_CAGES_BTN_ID)
+    DONE_BTN = (By.ID, DONE_BTN_ID)
+    TAG_PREFIX_INPUT = (By.ID, TAG_PREFIX_INPUT_ID)
+    TAG_START_INDEX_INPUT = (By.ID, TAG_START_INDEX_INPUT_ID)
+    SELECT_ALL_LITTERS = (By.ID, SELECT_ALL_LITTERS_ID)
+    DELETE_LITTERS_BTN = (By.ID, DELETE_LITTERS_BTN_ID)
+    LITTER_PUPS_CHECKBOX = (By.CSS_SELECTOR, LITTER_PUPS_CHECKBOX_CSS)
+    PUP_WEAN_CHECKBOX = (By.CSS_SELECTOR, PUP_WEAN_CHECKBOX_CSS)
+    ANIMALS_TAB = (By.XPATH, ANIMALS_TAB_XPATH)
+    EMPTY_MESSAGE = (By.XPATH, EMPTY_MESSAGE_XPATH)
+    FIRST_LITTER_CHECKBOX = (By.XPATH, FIRST_LITTER_CHECKBOX_XPATH)
 
     def select_first_mating(self):
         WebDriverWait(self.driver, 10).until(
@@ -48,9 +67,7 @@ class LittersPage(BasePage):
         time.sleep(0.5)
 
     def click_new_litter(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.NEW_LITTER_BTN)
-        ).click()
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.NEW_LITTER_BTN)).click()
         time.sleep(1)
 
     def enter_dob(self, dob):
@@ -70,13 +87,11 @@ class LittersPage(BasePage):
 
     def confirm_popup(self):
         try:
-            # Try JavaScript alert first
             WebDriverWait(self.driver, 5).until(EC.alert_is_present())
             alert = self.driver.switch_to.alert
             alert.accept()
             time.sleep(0.5)
         except Exception:
-            # Fallback to UI-based dialog
             WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable(self.POPUP_OK_BTN)
             ).click()
@@ -90,62 +105,62 @@ class LittersPage(BasePage):
 
     def select_first_litter(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.FIRST_LITTER_CHECKBOX_XPATH))
+            EC.element_to_be_clickable(self.FIRST_LITTER_CHECKBOX)
         ).click()
         time.sleep(0.5)
 
     def click_add_pups(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.ID, self.ADD_PUPS_BTN_ID))
+            EC.element_to_be_clickable(self.ADD_PUPS_BTN)
         ).click()
         time.sleep(0.5)
 
     def select_first_litter_pups(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "#litterTable tbody tr[id] input.cbox"))
+            EC.element_to_be_clickable(self.LITTER_PUPS_CHECKBOX)
         ).click()
         time.sleep(0.5)
 
     def select_males_dropdown(self, value):
         from selenium.webdriver.support.ui import Select
         males_dropdown = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.ID, self.MALES_DROPDOWN_ID))
+            EC.presence_of_element_located(self.MALES_DROPDOWN)
         )
         Select(males_dropdown).select_by_value(value)
         time.sleep(0.5)
 
     def click_submit_pups(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.ID, self.SUBMIT_PUPS_BTN_ID))
+            EC.element_to_be_clickable(self.SUBMIT_PUPS_BTN)
         ).click()
         time.sleep(0.5)
 
     def click_apply_button(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.ID, self.APPLY_BUTTON_ID))
+            EC.element_to_be_clickable(self.APPLY_BUTTON)
         ).click()
         time.sleep(1)
 
     def click_wean_litters(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.ID, self.WEAN_LITTERS_BTN_ID))
+            EC.element_to_be_clickable(self.WEAN_LITTERS_BTN)
         ).click()
         time.sleep(1)
 
     def select_first_pup_wean(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "#mouseTableWean tbody tr[id] input.cbox"))
+            EC.element_to_be_clickable(self.PUP_WEAN_CHECKBOX)
         ).click()
         time.sleep(0.5)
 
     def enter_physical_tag(self, prefix, start_index):
         tag_prefix = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.ID, self.TAG_PREFIX_INPUT_ID))
+            EC.presence_of_element_located(self.TAG_PREFIX_INPUT)
         )
         tag_prefix.clear()
         tag_prefix.send_keys(prefix)
         tag_start = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.ID, self.TAG_START_INDEX_INPUT_ID))
+            EC.presence_of_element_located(self.TAG_START_INDEX_INPUT)
         )
         tag_start.clear()
         tag_start.send_keys(str(start_index))
@@ -153,25 +168,25 @@ class LittersPage(BasePage):
 
     def click_wean_move_button(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.ID, self.WEAN_MOVE_BTN_ID))
+            EC.element_to_be_clickable(self.WEAN_MOVE_BTN)
         ).click()
         time.sleep(1)
 
     def click_create_update_cages_button(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.ID, self.CREATE_UPDATE_CAGES_BTN_ID))
+            EC.element_to_be_clickable(self.CREATE_UPDATE_CAGES_BTN)
         ).click()
         time.sleep(1)
 
     def click_done_button(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.ID, self.DONE_BTN_ID))
+            EC.element_to_be_clickable(self.DONE_BTN)
         ).click()
         time.sleep(1)
 
     def go_to_animals_tab(self):
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.ANIMALS_TAB_XPATH))
+            EC.element_to_be_clickable(self.ANIMALS_TAB)
         ).click()
         time.sleep(1)
 
@@ -183,13 +198,13 @@ class LittersPage(BasePage):
 
     def delete_all_litters(self):
         select_all = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.ID, self.SELECT_ALL_LITTERS_ID))
+            EC.presence_of_element_located(self.SELECT_ALL_LITTERS)
         )
         if select_all.is_displayed() and select_all.is_enabled():
             select_all.click()
             time.sleep(0.5)
             delete_btn = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.ID, self.DELETE_LITTERS_BTN_ID))
+                EC.element_to_be_clickable(self.DELETE_LITTERS_BTN)
             )
             delete_btn.click()
             self.confirm_popup()
@@ -199,6 +214,6 @@ class LittersPage(BasePage):
 
     def wait_for_empty_message(self):
         WebDriverWait(self.driver, 15).until(
-            EC.visibility_of_element_located((By.XPATH, self.EMPTY_MESSAGE_XPATH))
+            EC.visibility_of_element_located(self.EMPTY_MESSAGE)
         )
         time.sleep(1)

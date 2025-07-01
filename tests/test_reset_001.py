@@ -1,5 +1,3 @@
-import pytest
-import time
 from pages.login_page import LoginPage
 from pages.litters_page import LittersPage
 from pages.matings_page import MatingsPage

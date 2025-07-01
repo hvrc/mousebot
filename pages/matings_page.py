@@ -6,29 +6,46 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 
 class MatingsPage(BasePage):
-    # Locators as class variables
-    MATINGS_TAB = (By.XPATH, "//a[contains(@href, 'smdb/mating/list.do')]")
-    NEW_MATINGS_BTN = (By.ID, "newMatingMenuButton")
-    FIRST_MALE_CHECKBOX = (By.CSS_SELECTOR, "table#malemouseTable tbody input.cbox[type='checkbox']:first-of-type")
-    FIRST_FEMALE_CHECKBOX = (By.CSS_SELECTOR, "table#femalemouseTable tbody input.cbox[type='checkbox']:first-of-type")
-    SETUP_DATE_INPUT = (By.ID, "setupDate")
-    MATING_TAG = (By.ID, "matingTag")
-    STRAIN_SELECT = (By.ID, "mouselineId")
-    ADD_BTN = (By.ID, "batchApply")
-    MOVE_BREEDERS_BTN = (By.ID, "submitBatchesAndMove")
-    CREATE_UPDATE_CAGES_BTN = (By.ID, "moveApply")
-    DONE_BTN = (By.ID, "backbtn")
-    WARNING_POPUP = (By.XPATH, "//div[contains(@class, 'ui-dialog-buttonset')]/button/span[text()='OK']/..")
-    HOME_BTN = (By.XPATH, "//li[@id='home']//a[contains(@href, 'HomePage.do')]")
-    # Additional selectors for dynamic elements
-    ALL_FEMALE_CHECKBOXES = (By.CSS_SELECTOR, "table#femalemouseTable tbody input.cbox[type='checkbox']")
+    # XPATH selectors
+    MATINGS_TAB_XPATH = "//a[contains(@href, 'smdb/mating/list.do')]"
+    WARNING_POPUP_XPATH = "//div[contains(@class, 'ui-dialog-buttonset')]/button/span[text()='OK']/.."
+    HOME_BTN_XPATH = "//li[@id='home']//a[contains(@href, 'HomePage.do')]"
+    EMPTY_MESSAGE_XPATH_TEMPLATE = "//span[contains(text(), '{message}')]"
 
-    # Add these class variables at the top if not present
+    # CSS selectors
+    FIRST_MALE_CHECKBOX_CSS = "table#malemouseTable tbody input.cbox[type='checkbox']:first-of-type"
+    FIRST_FEMALE_CHECKBOX_CSS = "table#femalemouseTable tbody input.cbox[type='checkbox']:first-of-type"
+    ALL_FEMALE_CHECKBOXES_CSS = "table#femalemouseTable tbody input.cbox[type='checkbox']"
+
+    # ID selectors
+    NEW_MATINGS_BTN_ID = "newMatingMenuButton"
+    SETUP_DATE_INPUT_ID = "setupDate"
+    MATING_TAG_ID = "matingTag"
+    STRAIN_SELECT_ID = "mouselineId"
+    ADD_BTN_ID = "batchApply"
+    MOVE_BREEDERS_BTN_ID = "submitBatchesAndMove"
+    CREATE_UPDATE_CAGES_BTN_ID = "moveApply"
+    DONE_BTN_ID = "backbtn"
     SELECT_ALL_MATINGS_ID = "cb_matinglist_table"
     DISBAND_BTN_ID = "disbandmatingButton"
     DEACTIVATE_BTN_ID = "applydisbandMating"
     EMPTY_MATINGS_MSG = "No matings to show!"
-    EMPTY_MESSAGE_XPATH_TEMPLATE = "//span[contains(text(), '{message}')]"
+
+    # Tuple selectors
+    MATINGS_TAB = (By.XPATH, MATINGS_TAB_XPATH)
+    NEW_MATINGS_BTN = (By.ID, NEW_MATINGS_BTN_ID)
+    FIRST_MALE_CHECKBOX = (By.CSS_SELECTOR, FIRST_MALE_CHECKBOX_CSS)
+    FIRST_FEMALE_CHECKBOX = (By.CSS_SELECTOR, FIRST_FEMALE_CHECKBOX_CSS)
+    SETUP_DATE_INPUT = (By.ID, SETUP_DATE_INPUT_ID)
+    MATING_TAG = (By.ID, MATING_TAG_ID)
+    STRAIN_SELECT = (By.ID, STRAIN_SELECT_ID)
+    ADD_BTN = (By.ID, ADD_BTN_ID)
+    MOVE_BREEDERS_BTN = (By.ID, MOVE_BREEDERS_BTN_ID)
+    CREATE_UPDATE_CAGES_BTN = (By.ID, CREATE_UPDATE_CAGES_BTN_ID)
+    DONE_BTN = (By.ID, DONE_BTN_ID)
+    WARNING_POPUP = (By.XPATH, WARNING_POPUP_XPATH)
+    HOME_BTN = (By.XPATH, HOME_BTN_XPATH)
+    ALL_FEMALE_CHECKBOXES = (By.CSS_SELECTOR, ALL_FEMALE_CHECKBOXES_CSS)
 
     def go_to_matings_tab(self):
         self.click_element(*self.MATINGS_TAB)

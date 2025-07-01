@@ -8,6 +8,8 @@ class ImportPage(BasePage):
     IMPORT_CARD = (By.XPATH, "//p[text()='Import']/ancestor::div[contains(@class, 'MuiPaper-root')]")
     CHECK_ERRORS_BTN = (By.XPATH, "//button[contains(@class, 'process')]")
     FILE_INPUT = (By.ID, "file-upload")
+    PROCEED_BTN = (By.CSS_SELECTOR, "button.proceed")
+    CONFIRM_BTN = (By.CSS_SELECTOR, "button.import")
 
     def go_to_import(self, report_folder=None):
         wait = WebDriverWait(self.driver, 20)
@@ -38,13 +40,13 @@ class ImportPage(BasePage):
 
     def proceed_with_import(self, report_folder=None):
         wait = WebDriverWait(self.driver, 20)
-        proceed_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.proceed")))
+        proceed_btn = wait.until(EC.element_to_be_clickable(self.PROCEED_BTN))
         proceed_btn.click()
         time.sleep(1)
 
     def confirm_import(self, report_folder=None):
         wait = WebDriverWait(self.driver, 20)
-        confirm_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.import")))
+        confirm_btn = wait.until(EC.element_to_be_clickable(self.CONFIRM_BTN))
         confirm_btn.click()
         time.sleep(1)
 

@@ -1,11 +1,11 @@
-import pytest
 from pages.home_page import HomePage
 from pages.colony_page import ColonyPage
 from pages.litters_page import LittersPage
 
+MALE_PUPS_COUNT = "1"
+
 def test_pups_001(driver, config):
     home_page = HomePage(driver)
-    colony_page = ColonyPage(driver)
     litters_page = LittersPage(driver)
 
     # 1. Go to Colony module
@@ -19,7 +19,7 @@ def test_pups_001(driver, config):
     # 5. Select first available litter in pups jqGrid
     litters_page.select_first_litter_pups()
     # 6. Select 1 from male dropdown
-    litters_page.select_males_dropdown("1")
+    litters_page.select_males_dropdown(MALE_PUPS_COUNT)
     # 7. Click "Submit" button (id="addPups")
     litters_page.click_submit_pups()
     # 8. Handle popup OK button

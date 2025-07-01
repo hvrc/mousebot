@@ -1,4 +1,3 @@
-import pytest
 from pages.import_page import ImportPage
 import os
 
@@ -9,8 +8,9 @@ def test_import_001(driver, config, request):
     import_page.go_to_import(report_folder=report_folder)
     import_page.assert_on_import_page()
 
-    # Upload the file
-    data_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '../data/valid_data.xlsx'))
+    # Upload the file (filename from config only)
+    data_file_name = config['import_data_file']
+    data_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '../data', data_file_name))
     import_page.upload_file(data_file, report_folder=report_folder)
 
     # Click the Check for Errors button

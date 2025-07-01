@@ -1,9 +1,11 @@
-import pytest
 from pages.home_page import HomePage
 from pages.colony_page import ColonyPage
 from pages.matings_page import MatingsPage
 from utilities.screenshot import take_screenshot
-import os
+
+SETUP_DATE = "01-02-2025"
+MATING_TAG = "M5"
+SCREENSHOT_NAME = "test_mating_004_warning"
 
 def test_mating_004(driver, config, request):
     home_page = HomePage(driver)
@@ -15,14 +17,14 @@ def test_mating_004(driver, config, request):
     matings_page.start_new_mating()
     matings_page.select_first_male()
     matings_page.select_first_female()
-    matings_page.set_setup_date("01-02-2025")
-    matings_page.set_mating_tag("M5")
+    matings_page.set_setup_date(SETUP_DATE)
+    matings_page.set_mating_tag(MATING_TAG)
     matings_page.select_first_strain()
     matings_page.add_mating()
 
     # Handle warning popup and take screenshot if popup appears
     # Save screenshot in the suite report folder if available
     report_folder = getattr(request.node, '_report_folder', 'reports')
-    take_screenshot(driver, output_dir=report_folder, name="test_mating_004_warning")
+    take_screenshot(driver, output_dir=report_folder, name=SCREENSHOT_NAME)
     matings_page.handle_warning_popup_and_go_home()
     assert "homepage.do" in driver.current_url.lower()

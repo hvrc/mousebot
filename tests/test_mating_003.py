@@ -1,7 +1,10 @@
-import pytest
 from pages.home_page import HomePage
 from pages.colony_page import ColonyPage
 from pages.matings_page import MatingsPage
+
+SETUP_DATE = "02-01-2025"
+MATING_TAG_1 = "M3"
+MATING_TAG_2 = "M4"
 
 def test_mating_003(driver, config):
     home_page = HomePage(driver)
@@ -19,13 +22,13 @@ def test_mating_003(driver, config):
     matings_page.start_new_mating()
     matings_page.select_first_male()
     matings_page.select_first_female()
-    matings_page.set_setup_date("02-01-2025")
-    matings_page.set_mating_tag("M3")
+    matings_page.set_setup_date(SETUP_DATE)
+    matings_page.set_mating_tag(MATING_TAG_1)
     matings_page.select_first_strain()
     matings_page.add_mating()
 
     # Add a second mating with next available female if present
-    matings_page.add_second_mating_if_available("M4")
+    matings_page.add_second_mating_if_available(MATING_TAG_2)
 
     # Move breeders and create/update cages
     matings_page.move_breeders()

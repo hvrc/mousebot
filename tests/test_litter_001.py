@@ -1,13 +1,13 @@
-import pytest
 from pages.home_page import HomePage
 from pages.colony_page import ColonyPage
 from pages.matings_page import MatingsPage
 from pages.litters_page import LittersPage
 
+DOB = "03-01-2025"
+
 def test_litter_001(driver, config):
     home_page = HomePage(driver)
     colony_page = ColonyPage(driver)
-    matings_page = MatingsPage(driver)
     litters_page = LittersPage(driver)
 
     # 1. Go to Colony module
@@ -19,7 +19,7 @@ def test_litter_001(driver, config):
     # 4. Click "New Litter" button
     litters_page.click_new_litter()
     # 5. Enter date of birth
-    litters_page.enter_dob("03-01-2025")
+    litters_page.enter_dob(DOB)
     # 6. Click "Create Litters" button
     litters_page.create_litters()
     # 7. Click "OK" on pop-up

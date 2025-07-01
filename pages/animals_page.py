@@ -17,7 +17,7 @@ class AnimalsPage(BasePage):
 
     def delete_all_animals(self):
         max_attempts = 5
-        for attempt in range(max_attempts):
+        for _ in range(max_attempts):
             try:
                 self.click_element(By.ID, self.SELECT_ALL_ANIMALS_ID)
                 time.sleep(1)

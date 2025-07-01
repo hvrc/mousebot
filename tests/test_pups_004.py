@@ -1,6 +1,8 @@
-import pytest
 from pages.home_page import HomePage
 from pages.litters_page import LittersPage
+
+TAG_PREFIX = "B"
+TAG_START_INDEX = 1
 
 def test_pups_004(driver, config):
     home_page = HomePage(driver)
@@ -17,7 +19,7 @@ def test_pups_004(driver, config):
     # 5. Select first available pup checkbox in weaning table
     litters_page.select_first_pup_wean()
     # 6. Enter physical tag B 1
-    litters_page.enter_physical_tag("B", 1)
+    litters_page.enter_physical_tag(TAG_PREFIX, TAG_START_INDEX)
     # 7. Click apply
     litters_page.click_apply_button()
     # 8. Click wean pups and move weanlings into cages button
