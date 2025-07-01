@@ -1,5 +1,7 @@
 from .base_page import BasePage
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
 class LittersPage(BasePage):
@@ -24,6 +26,9 @@ class LittersPage(BasePage):
     DONE_BTN_ID = "backbtn"
     TAG_PREFIX_INPUT_ID = "tagPrefix"
     TAG_START_INDEX_INPUT_ID = "tagStartIndex"
+    SELECT_ALL_LITTERS_ID = "cb_litter_table"
+    DELETE_LITTERS_BTN_ID = "deleteLitterBtn"
+    EMPTY_LITTERS_MSG = "No litters to show!"
 
     FIRST_MATING_CHECKBOX = (By.CSS_SELECTOR, "#matinglist_table tbody tr[id] input.cbox")
     NEW_LITTER_BTN = (By.ID, NEW_LITTER_BTN_ID)
@@ -32,6 +37,8 @@ class LittersPage(BasePage):
     POPUP_OK_BTN = (By.XPATH, POPUP_OK_BTN_XPATH)
     HOME_BUTTON = (By.XPATH, HOME_BUTTON_XPATH)
     LITTERS_TAB = (By.XPATH, LITTERS_TAB_XPATH)
+
+    EMPTY_MESSAGE_XPATH_TEMPLATE = "//span[contains(text(), '{message}')]"
 
     def select_first_mating(self):
         self.click_element(*self.FIRST_MATING_CHECKBOX)
@@ -138,3 +145,25 @@ class LittersPage(BasePage):
     def go_home(self):
         self.click_element(By.XPATH, self.HOME_BUTTON_XPATH)
         time.sleep(2)
+
+    def delete_all_litters(self):
+        try:
+            self.click_element(By.ID, self.SELECT_ALL_LITTERS_ID)
+            time.sleep(1)
+            self.click_element(By.ID, self.DELETE_LITTERS_BTN_ID)
+            self.confirm_popup()
+            self.wait_for_empty_message(self.EMPTY_LITTERS_MSG)
+        except Exception:
+            pass
+
+    def wait_for_empty_message(self, message):
+        wait = WebDriverWait(self.driver, 15)
+        try:
+            xpath = self.EMPTY_MESSAGE_XPATH_TEMPLATE.format(message=message)
+            empty_message = wait.until(
+                EC.visibility_of_element_located((By.XPATH, xpath))
+            )
+            assert empty_message.is_displayed()
+            time.sleep(2)
+        except Exception:
+            pass

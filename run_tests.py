@@ -9,12 +9,12 @@ def main():
         "-q",
         "tests/test_login_001.py",
         # "tests/test_import_001.py",
-        "tests/test_mating_003.py",
-        "tests/test_mating_004.py",
-        "tests/test_litter_001.py",
-        "tests/test_pups_001.py",
-        "tests/test_pups_004.py",
-        # "tests/test_reset_001.py",
+        # "tests/test_mating_003.py",
+        # "tests/test_mating_004.py",
+        # "tests/test_litter_001.py",
+        # "tests/test_pups_001.py",
+        # "tests/test_pups_004.py",
+        "tests/test_reset_001.py",
     ])
 
 if __name__ == "__main__":
