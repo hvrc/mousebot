@@ -42,7 +42,7 @@ def main():
     pytest_args = [test_files[idx] for idx in selected]
     print("\nStarting test session...")
     pytest.main(pytest_args)
-    print("\nAll selected tests have been run.")
+    print("\nTest session ended.")
     # Print the report folder location
     try:
         # Dynamically find the latest test_report_n folder in reports/
@@ -56,7 +56,7 @@ def main():
             print("\nReport folder location could not be determined.")
     except Exception as e:
         print(f"\nReport folder location could not be determined. ({e})")
-    input("\nPress [Enter] to exit suite.\n")
+    input("\nPress [Enter] to exit.\n")
     # Browser will be closed by pytest fixture finalizer. No manual shutdown here.
 
 if __name__ == "__main__":
