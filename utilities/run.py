@@ -1,6 +1,8 @@
-import pytest
+import sys
 import os
-import importlib
+import pytest
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 test_files = [
     "tests/test_login_001.py",
@@ -38,15 +40,15 @@ def main():
     print("\nRunning selected tests:")
     for idx in selected:
         print(f"- {os.path.splitext(os.path.basename(test_files[idx]))[0]}")
-    # Build pytest args (only test files, all output suppression is in pytest.ini)
-    pytest_args = [test_files[idx] for idx in selected]
+    # Build pytest args and prepend config path
+    pytest_args = ['-c', 'config/pytest.ini'] + [test_files[idx] for idx in selected]
     print("\nStarting test session...")
     pytest.main(pytest_args)
     print("\nTest session ended.")
     # Print the report folder location
     try:
         # Dynamically find the latest test_report_n folder in reports/
-        reports_dir = os.path.join(os.path.dirname(__file__), 'reports')
+        reports_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'reports'))
         all_reports = [d for d in os.listdir(reports_dir) if d.startswith('test_report_')]
         if all_reports:
             latest = max(all_reports, key=lambda d: int(d.split('_')[-1]))

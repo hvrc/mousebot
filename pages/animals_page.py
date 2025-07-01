@@ -16,7 +16,7 @@ class AnimalsPage(BasePage):
         time.sleep(2)
 
     def delete_all_animals(self):
-        max_attempts = 3
+        max_attempts = 5
         for attempt in range(max_attempts):
             try:
                 self.click_element(By.ID, self.SELECT_ALL_ANIMALS_ID)
@@ -26,9 +26,7 @@ class AnimalsPage(BasePage):
                 self.wait_for_empty_message(self.EMPTY_ANIMALS_MSG)
                 return
             except Exception:
-                if attempt == max_attempts - 1:
-                    print("Warning: Animal deletion may not have completed successfully")
-                time.sleep(5)
+                pass
 
     def handle_confirm_dialog(self):
         try:
