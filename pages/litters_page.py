@@ -34,17 +34,21 @@ class LittersPage(BasePage):
         self.click_element(*self.POPUP_OK_BTN)
         time.sleep(1)
 
-    def go_home(self):
-        self.click_element(*self.HOME_BUTTON)
-        time.sleep(2)
-
     def go_to_litters_tab(self):
         self.click_element(*self.LITTERS_TAB)
         time.sleep(2)
 
     def select_first_litter(self):
-        self.click_element(By.CSS_SELECTOR, "#litter_table tbody tr[id] input.cbox")
-        time.sleep(1)
+        # Select the first available litter checkbox in the jqGrid table
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.common.by import By
+        from selenium.webdriver.support.ui import WebDriverWait
+        wait = WebDriverWait(self.driver, 10)
+        checkbox = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#litter_table tbody tr[id] input.cbox"))
+        )
+        checkbox.click()
+        import time; time.sleep(1)
 
     def click_add_pups(self):
         self.click_element(By.ID, "addPupsBtn")
@@ -64,3 +68,55 @@ class LittersPage(BasePage):
     def click_submit_pups(self):
         self.click_element(By.ID, "addPups")
         time.sleep(1)
+
+    def click_apply_button(self):
+        self.click_element(By.ID, "boxApply")
+        import time; time.sleep(2)
+
+    def click_wean_litters(self):
+        self.click_element(By.ID, "weanLitterBtn")
+        import time; time.sleep(2)
+
+    def select_first_pup_wean(self):
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.common.by import By
+        from selenium.webdriver.support.ui import WebDriverWait
+        wait = WebDriverWait(self.driver, 10)
+        checkbox = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#mouseTableWean tbody tr[id] input.cbox"))
+        )
+        checkbox.click()
+        import time; time.sleep(1)
+
+    def enter_physical_tag(self, prefix, start_index):
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.common.by import By
+        from selenium.webdriver.support.ui import WebDriverWait
+        wait = WebDriverWait(self.driver, 10)
+        tag_prefix = wait.until(EC.presence_of_element_located((By.ID, "tagPrefix")))
+        tag_prefix.clear()
+        tag_prefix.send_keys(prefix)
+        tag_start = wait.until(EC.presence_of_element_located((By.ID, "tagStartIndex")))
+        tag_start.clear()
+        tag_start.send_keys(str(start_index))
+        import time; time.sleep(1)
+
+    def click_wean_move_button(self):
+        self.click_element(By.ID, "editSubmitMove")
+        import time; time.sleep(2)
+
+    def click_create_update_cages_button(self):
+        self.click_element(By.ID, "moveApply")
+        import time; time.sleep(2)
+
+    def click_done_button(self):
+        self.click_element(By.ID, "backbtn")
+        import time; time.sleep(2)
+
+    def go_to_animals_tab(self):
+        self.click_element(By.XPATH, "//a[contains(@href, 'smdb/mouse/list.do') and contains(text(), 'Animals')]")
+        import time; time.sleep(2)
+
+    def go_home(self):
+        self.click_element(*self.HOME_BUTTON)
+        import time; time.sleep(2)
