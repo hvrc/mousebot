@@ -35,5 +35,5 @@ def test_mating_003(driver):
     matings_page.move_breeders()
     matings_page.create_update_cages()
     matings_page.done()
-    matings_page.go_home()
+    colony_page.go_home()
     assert "homepage.do" in driver.current_url.lower()

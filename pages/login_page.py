@@ -14,12 +14,7 @@ class LoginPage(BasePage):
         self.find_element(*self.PASSWORD_FIELD).send_keys(password)
         self.click_element(*self.LOGIN_BUTTON)
 
-    # this should be in home page!
-    def navigate_to_colony(self):
-        self.click_element(*self.MODULES_BUTTON)
-        self.click_element(*self.COLONY_BUTTON)
-
-    # where is this used?
+    # 
     def go_to_login_page(self, url):
         self.driver.get(url)
 

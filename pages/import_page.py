@@ -6,24 +6,10 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # import tool page
 class ImportPage(BasePage):
-    IMPORT_CARD = (By.XPATH, "//p[text()='Import']/ancestor::div[contains(@class, 'MuiPaper-root')]")
     CHECK_ERRORS_BTN = (By.XPATH, "//button[contains(@class, 'process')]")
     FILE_INPUT = (By.ID, "file-upload")
     PROCEED_BTN = (By.CSS_SELECTOR, "button.proceed")
     CONFIRM_BTN = (By.CSS_SELECTOR, "button.import")
-
-    # this should be in the home page
-    def go_to_import(self):
-        wait = WebDriverWait(self.driver, 10)
-        original_windows = self.driver.window_handles
-        import_card = wait.until(EC.element_to_be_clickable(self.IMPORT_CARD))
-        import_card.click()
-        wait.until(lambda d: len(d.window_handles) > len(original_windows))
-        new_windows = self.driver.window_handles
-        new_tab = [w for w in new_windows if w not in original_windows][0]
-        self.driver.switch_to.window(new_tab)
-        wait.until(lambda driver: "import" in driver.current_url.lower() or driver.find_elements(*self.FILE_INPUT))
-        time.sleep(1)
 
     # check if on import page
     def assert_on_import_page(self):

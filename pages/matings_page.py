@@ -28,6 +28,8 @@ class MatingsPage(BasePage):
     DEACTIVATE_BTN_ID = "applydisbandMating"
     EMPTY_MATINGS_MSG = "No matings to show!"
 
+    NEW_LITTER_BTN_ID = "newLitter4MatingMenuButton"
+
     MATINGS_TAB = (By.XPATH, MATINGS_TAB_XPATH)
     NEW_MATINGS_BTN = (By.ID, NEW_MATINGS_BTN_ID)
     FIRST_MALE_CHECKBOX = (By.CSS_SELECTOR, FIRST_MALE_CHECKBOX_CSS)
@@ -42,12 +44,7 @@ class MatingsPage(BasePage):
     WARNING_POPUP = (By.XPATH, WARNING_POPUP_XPATH)
     HOME_BTN = (By.XPATH, HOME_BTN_XPATH)
     ALL_FEMALE_CHECKBOXES = (By.CSS_SELECTOR, ALL_FEMALE_CHECKBOXES_CSS)
-
-    # this should be in the colony page!
-    # navigate to the matings tab
-    def go_to_matings_tab(self):
-        self.click_element(*self.MATINGS_TAB)
-        time.sleep(2)
+    NEW_LITTER_BTN = (By.ID, NEW_LITTER_BTN_ID)
 
     # click on new mating button
     def start_new_mating(self):
@@ -132,13 +129,8 @@ class MatingsPage(BasePage):
     # handle warning/error on create a new mating page
     def handle_warning_popup_and_go_home(self):
         self.click_element(*self.WARNING_POPUP)
-        self.go_home()
-
-    # this should be in the colony page!
-    # home button
-    def go_home(self):
-        self.click_element(*self.HOME_BTN)
-        time.sleep(1)
+        from pages.colony_page import ColonyPage
+        ColonyPage(self.driver).go_home()
 
     # disband matings button in matings tab
     # then on disband mating page, click deactivate matings button,
@@ -149,15 +141,11 @@ class MatingsPage(BasePage):
         self.click_element(By.ID, self.DISBAND_BTN_ID)
         time.sleep(1)
         self.click_element(By.ID, self.DEACTIVATE_BTN_ID)
-        self.wait_for_empty_message(self.EMPTY_MATINGS_MSG)
+        from pages.colony_page import ColonyPage
+        ColonyPage(self.driver).wait_for_empty_message(self.EMPTY_MATINGS_MSG)
 
-    # this should be in the colony page!
-    # wait for an empty message to appear
-    def wait_for_empty_message(self, message):
-        wait = WebDriverWait(self.driver, 10)
-        xpath = self.EMPTY_MESSAGE_XPATH_TEMPLATE.format(message=message)
-        empty_message = wait.until(
-            EC.visibility_of_element_located((By.XPATH, xpath))
-        )
-        assert empty_message.is_displayed()
+    def click_new_litter(self):
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.NEW_LITTER_BTN)
+        ).click()
         time.sleep(1)

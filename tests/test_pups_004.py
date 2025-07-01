@@ -1,5 +1,6 @@
 from pages.home_page import HomePage
 from pages.litters_page import LittersPage
+from pages.colony_page import ColonyPage
 
 # 1. From Home Page, click on modules icon and navigate to "Colony" module.
 # 2. Navigate to Litters tab.
@@ -17,6 +18,7 @@ TAG_START_INDEX = 1
 
 def test_pups_004(driver):
     home_page = HomePage(driver)
+    colony_page = ColonyPage(driver)
     litters_page = LittersPage(driver)
     home_page.go_to_colony()
     litters_page.go_to_litters_tab()
@@ -28,6 +30,6 @@ def test_pups_004(driver):
     litters_page.click_wean_move_button()
     litters_page.click_create_update_cages_button()
     litters_page.click_done_button()
-    litters_page.go_to_animals_tab()
-    litters_page.go_home()
+    colony_page.go_to_animals_tab()
+    colony_page.go_home()
     assert "homepage.do" in driver.current_url.lower()

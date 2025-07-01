@@ -1,5 +1,6 @@
 import time
 from .base_page import BasePage
+from .colony_page import ColonyPage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,7 +10,7 @@ class LittersPage(BasePage):
     HOME_BUTTON_XPATH = "//li[@id='home']//a[contains(@href, 'HomePage.do')]"
     LITTERS_TAB_XPATH = "//a[contains(@href, 'smdb/litter/list.do')]"
     FIRST_LITTER_CHECKBOX_XPATH = "//table[@id='litter_table']//tbody//tr[@id]//input[contains(@class, 'cbox')]"
-    ANIMALS_TAB_XPATH = "//a[contains(@href, 'smdb/mouse/list.do') and contains(text(), 'Animals')]"
+    # ANIMALS_TAB_XPATH = "//a[contains(@href, 'smdb/mouse/list.do') and contains(text(), 'Animals')]"
     EMPTY_MESSAGE_XPATH = "//span[contains(text(), 'No litters to show!')]"
     LITTER_PUPS_CHECKBOX_CSS = "#litterTable tbody tr[id] input.cbox"
     PUP_WEAN_CHECKBOX_CSS = "#mouseTableWean tbody tr[id] input.cbox"
@@ -53,7 +54,7 @@ class LittersPage(BasePage):
     DELETE_LITTERS_BTN = (By.ID, DELETE_LITTERS_BTN_ID)
     LITTER_PUPS_CHECKBOX = (By.CSS_SELECTOR, LITTER_PUPS_CHECKBOX_CSS)
     PUP_WEAN_CHECKBOX = (By.CSS_SELECTOR, PUP_WEAN_CHECKBOX_CSS)
-    ANIMALS_TAB = (By.XPATH, ANIMALS_TAB_XPATH)
+    # ANIMALS_TAB = (By.XPATH, ANIMALS_TAB_XPATH)
     EMPTY_MESSAGE = (By.XPATH, EMPTY_MESSAGE_XPATH)
     FIRST_LITTER_CHECKBOX = (By.XPATH, FIRST_LITTER_CHECKBOX_XPATH)
 
@@ -61,14 +62,6 @@ class LittersPage(BasePage):
     def select_first_mating(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.FIRST_MATING_CHECKBOX)
-        ).click()
-        time.sleep(1)
-
-    # click new litter button
-    # this should be in matings page
-    def click_new_litter(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.NEW_LITTER_BTN)
         ).click()
         time.sleep(1)
 
@@ -216,20 +209,6 @@ class LittersPage(BasePage):
             EC.element_to_be_clickable(self.DONE_BTN)
         ).click()
         time.sleep(1)
-    
-    # this should be in colony page!
-    def go_to_animals_tab(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.ANIMALS_TAB)
-        ).click()
-        time.sleep(1)
-
-    # this should be in colony page!
-    def go_home(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.HOME_BUTTON)
-        ).click()
-        time.sleep(1)
 
     # trash can button, handle popup
     def delete_all_litters(self):
@@ -243,13 +222,4 @@ class LittersPage(BasePage):
         )
         delete_btn.click()
         self.confirm_popup()
-        self.wait_for_empty_message()
-
-    # this shuold be in colony page!
-    # the message should be defined here
-    # wait till all litter records are deleted
-    def wait_for_empty_message(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located(self.EMPTY_MESSAGE)
-        )
-        time.sleep(1)
+        ColonyPage(self.driver).wait_for_empty_message(self.EMPTY_LITTERS_MSG)
