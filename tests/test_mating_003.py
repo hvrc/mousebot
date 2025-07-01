@@ -3,7 +3,7 @@ from pages.home_page import HomePage
 from pages.colony_page import ColonyPage
 from pages.matings_page import MatingsPage
 
-def test_mating_workflow(driver, config):
+def test_mating_003(driver, config):
     home_page = HomePage(driver)
     colony_page = ColonyPage(driver)
     matings_page = MatingsPage(driver)

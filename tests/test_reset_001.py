@@ -6,7 +6,7 @@ from pages.matings_page import MatingsPage
 from pages.animals_page import AnimalsPage
 from pages.strains_page import StrainsPage
 
-def test_reset_colony(driver, config):
+def test_reset_001(driver, config):
     login_page = LoginPage(driver)
     litters_page = LittersPage(driver)
     matings_page = MatingsPage(driver)

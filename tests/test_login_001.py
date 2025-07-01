@@ -1,7 +1,7 @@
 import pytest
 from pages.login_page import LoginPage
 
-def test_login(driver, config):
+def test_login_001(driver, config):
     login_page = LoginPage(driver)
     # Navigate to login page
     login_page.go_to_login_page(config['url'])
