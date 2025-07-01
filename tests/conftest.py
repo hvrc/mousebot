@@ -4,7 +4,7 @@ import glob
 import traceback
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from utilities.logger import Logger
+from utilities.log import Logger
 
 _driver = None
 _suite_report_folder = None
@@ -82,8 +82,8 @@ def test_artifacts(request, suite_report_folder, suite_logger):
 
 @pytest.fixture(scope="session")
 def config():
-    from utilities.config_reader import get_config
-    return get_config()['dev']
+    from utilities.config import get_config
+    return get_config()
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
