@@ -41,3 +41,26 @@ class LittersPage(BasePage):
     def go_to_litters_tab(self):
         self.click_element(*self.LITTERS_TAB)
         time.sleep(2)
+
+    def select_first_litter(self):
+        self.click_element(By.CSS_SELECTOR, "#litter_table tbody tr[id] input.cbox")
+        time.sleep(1)
+
+    def click_add_pups(self):
+        self.click_element(By.ID, "addPupsBtn")
+        time.sleep(1)
+
+    def select_first_litter_pups(self):
+        self.click_element(By.CSS_SELECTOR, "#litterTable tbody tr[id] input.cbox")
+        time.sleep(1)
+
+    def select_males_dropdown(self, value):
+        from selenium.webdriver.support.ui import Select
+        males_dropdown = self.find_element(By.ID, "males")
+        select = Select(males_dropdown)
+        select.select_by_value(value)
+        time.sleep(1)
+
+    def click_submit_pups(self):
+        self.click_element(By.ID, "addPups")
+        time.sleep(1)
