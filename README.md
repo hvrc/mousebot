@@ -1,6 +1,6 @@
 # MouseBot for SoftMouse
 
-This repo contains an automated selenium based test framework for SoftMouse.NET, that automates common workflows like logging in, importing data, creating matings, litters, pups, weaning pups and resetting colony data
+This repo contains an automated selenium based test framework for SoftMouse.NET, that automates common workflows like logging in, importing data, creating matings, litters, pups, weaning pups and resetting colony data. These instructions are primarily for Windows based systems.
 
 ## Project Structure
 ```
@@ -18,45 +18,51 @@ mousebot/
 
 ## Setup Instructions
 
-1. **Clone the repository**
+**Clone the repository**
 
-2. **Install Python 3.8+**
+**Install Python 3.8+**
 
-3. **Create and activate a virtual environment:**
+**Create and activate a virtual environment:**
    ```cmd
    python -m venv venv
    venv\Scripts\activate
    ```
 
-4. **Install dependencies:**
+**Install dependencies:**
    ```cmd
    pip install -r requirements.txt
    ```
 
-5. **Configure your environment:**
-   - Edit `config/config_dev.ini` or `config/config_staging.ini` to match your environment variables/files.
-   - Edit `config/credentials.ini` for your credentials.
-   - Edit `tests/tests.txt` to control which tests run and in what order.
+**Configure your environment:**
 
-6. **Place test data files in the `data/` directory.**
+Edit `config/config.ini` to match your environment variables.
+
+Edit `config/credentials.ini` for your credentials.
+
+Edit `tests/tests.txt` to control which tests run and in what order.
+
+Place test data files in the `data/` directory.
 
 ## Running the Tests
 
-### Via Command Prompt
+### Interactive
 
 Run the batch script:
 ```cmd
 run.bat
 ```
-- You will be prompted to select a config file (e.g. dev, staging).
-- You will be prompted to select which tests to run (all or specific).
-- Test artifacts (logs, screenshots) will be saved in a new folder under `reports/`.
+
+You will be prompted to select a config file (e.g. dev, staging).
+
+You will be prompted to select which tests to run (all or specific).
+
+Test artifacts like logs, screenshots will be saved in a new folder under `reports/`.
 
 ### Manual
 
 You can also run the runner directly:
 ```cmd
-python utilities\run.py
+python utilities/run.py
 ```
 
 Or run pytest directly:
