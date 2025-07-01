@@ -14,13 +14,6 @@ def test_login(driver, config):
     # Login
     login_page.login(config['username'], config['password'])
     
-    # Wait for home button and click it
-    wait = WebDriverWait(driver, 10)
-    home_button = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//li[@id='home']//a[contains(@href, 'HomePage.do')]"))
-    )
-    home_button.click()
-    
     # Wait for navigation and verify we're on home page
     time.sleep(2)
     assert "homepage.do" in driver.current_url.lower()

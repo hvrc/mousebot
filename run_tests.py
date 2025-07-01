@@ -10,8 +10,9 @@ def main():
         "tests/test_login_001.py",
         # "tests/test_reset_001.py",
         # "tests/test_import_001.py",
-        "tests/test_mating_004.py",
+        # "tests/test_mating_004.py",
         # "tests/test_mating_003.py",
+        "tests/test_litter_001.py",
         # "tests/test_reset_001.py",
     ])
 
