@@ -17,3 +17,11 @@ class LoginPage(BasePage):
     def navigate_to_colony(self):
         self.click_element(*self.MODULES_BUTTON)
         self.click_element(*self.COLONY_BUTTON)
+
+    def go_to_login_page(self, url):
+        self.driver.get(url)
+
+    def is_on_home_page(self):
+        import time
+        time.sleep(2)
+        return "homepage.do" in self.driver.current_url.lower()

@@ -2,10 +2,6 @@ import pytest
 from pages.home_page import HomePage
 from pages.colony_page import ColonyPage
 from pages.matings_page import MatingsPage
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time
 
 def test_mating_invalid_date(driver, config):
     home_page = HomePage(driver)
@@ -22,16 +18,6 @@ def test_mating_invalid_date(driver, config):
     matings_page.select_first_strain()
     matings_page.add_mating()
 
-    # Wait for and handle warning popup
-    wait = WebDriverWait(driver, 10)
-    popup_ok_btn = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'ui-dialog-buttonset')]/button/span[text()='OK']/.."))
-    )
-    popup_ok_btn.click()
-    time.sleep(1)
-    home_button = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//li[@id='home']//a[contains(@href, 'HomePage.do')]"))
-    )
-    home_button.click()
-    time.sleep(2)
+    # Handle warning popup and go home
+    matings_page.handle_warning_popup_and_go_home()
     assert "homepage.do" in driver.current_url.lower()

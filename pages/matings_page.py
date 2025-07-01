@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import Select
 import time
 
 class MatingsPage(BasePage):
+    # Locators as class variables
     MATINGS_TAB = (By.XPATH, "//a[contains(@href, 'smdb/mating/list.do')]")
     NEW_MATINGS_BTN = (By.ID, "newMatingMenuButton")
     FIRST_MALE_CHECKBOX = (By.CSS_SELECTOR, "table#malemouseTable tbody input.cbox[type='checkbox']:first-of-type")
@@ -15,6 +16,10 @@ class MatingsPage(BasePage):
     MOVE_BREEDERS_BTN = (By.ID, "submitBatchesAndMove")
     CREATE_UPDATE_CAGES_BTN = (By.ID, "moveApply")
     DONE_BTN = (By.ID, "backbtn")
+    WARNING_POPUP = (By.XPATH, "//div[contains(@class, 'ui-dialog-buttonset')]/button/span[text()='OK']/..")
+    HOME_BTN = (By.XPATH, "//li[@id='home']//a[contains(@href, 'HomePage.do')]")
+    # Additional selectors for dynamic elements
+    ALL_FEMALE_CHECKBOXES = (By.CSS_SELECTOR, "table#femalemouseTable tbody input.cbox[type='checkbox']")
 
     def go_to_matings_tab(self):
         self.click_element(*self.MATINGS_TAB)
@@ -52,20 +57,41 @@ class MatingsPage(BasePage):
             if option.get_attribute("value"):
                 select.select_by_value(option.get_attribute("value"))
                 break
-        time.sleep(1)
 
     def add_mating(self):
         self.click_element(*self.ADD_BTN)
-        time.sleep(2)
+        time.sleep(1)
+
+    def add_second_mating_if_available(self, tag):
+        # Try to select next available female and add another mating
+        try:
+            female_checkboxes = self.driver.find_elements(*self.ALL_FEMALE_CHECKBOXES)
+            if len(female_checkboxes) > 1:
+                female_checkboxes[1].click()
+                self.set_mating_tag(tag)
+                self.add_mating()
+        except Exception:
+            pass
 
     def move_breeders(self):
         self.click_element(*self.MOVE_BREEDERS_BTN)
-        time.sleep(2)
+        time.sleep(1)
 
     def create_update_cages(self):
         self.click_element(*self.CREATE_UPDATE_CAGES_BTN)
-        time.sleep(2)
+        time.sleep(1)
 
     def done(self):
         self.click_element(*self.DONE_BTN)
+        time.sleep(1)
+
+    def handle_warning_popup_and_go_home(self):
+        try:
+            self.click_element(*self.WARNING_POPUP)
+        except Exception:
+            pass
+        self.go_home()
+
+    def go_home(self):
+        self.click_element(*self.HOME_BTN)
         time.sleep(2)

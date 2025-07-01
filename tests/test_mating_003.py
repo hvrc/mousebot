@@ -2,7 +2,6 @@ import pytest
 from pages.home_page import HomePage
 from pages.colony_page import ColonyPage
 from pages.matings_page import MatingsPage
-from selenium.webdriver.common.by import By
 
 def test_mating_workflow(driver, config):
     home_page = HomePage(driver)
@@ -26,13 +25,13 @@ def test_mating_workflow(driver, config):
     matings_page.add_mating()
 
     # Add a second mating with next available female if present
-    female_checkboxes = driver.find_elements(By.CSS_SELECTOR, "table#femalemouseTable tbody input.cbox[type='checkbox']")
-    if len(female_checkboxes) > 1:
-        female_checkboxes[1].click()
-        matings_page.set_mating_tag("M4")
-        matings_page.add_mating()
+    matings_page.add_second_mating_if_available("M4")
 
     # Move breeders and create/update cages
     matings_page.move_breeders()
     matings_page.create_update_cages()
     matings_page.done()
+
+    # Go back home by pressing home button (now via POM)
+    matings_page.go_home()
+    assert "homepage.do" in driver.current_url.lower()
