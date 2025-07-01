@@ -1,15 +1,12 @@
 import os
 import pytest
+import glob
+import traceback
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import glob
-from utilities.logger import TestLogger
-import traceback
+from utilities.logger import Logger
 
-# Global driver reference for manual control
 _driver = None
-
-# Store the current suite report folder
 _suite_report_folder = None
 _suite_logger = None
 
@@ -38,7 +35,7 @@ def suite_report_folder():
 def suite_logger(suite_report_folder):
     global _suite_logger
     if _suite_logger is None:
-        _suite_logger = TestLogger(suite_report_folder, "TEST SUITE")
+        _suite_logger = Logger(suite_report_folder, "TEST SUITE")
     return _suite_logger
 
 @pytest.fixture(scope="session")
@@ -51,6 +48,7 @@ def driver():
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         chrome_options.add_experimental_option('detach', True)
         _driver = webdriver.Chrome(options=chrome_options)
+
     def fin():
         if _driver:
             try:
@@ -58,18 +56,21 @@ def driver():
                 print("Browser closed.")
             except Exception:
                 pass
+
     import pytest
     pytest.request = locals().get('request', None)
+
     if pytest.request:
         pytest.request.addfinalizer(fin)
+
     else:
         import atexit
         atexit.register(fin)
+
     yield _driver
 
 @pytest.fixture(scope="function", autouse=True)
 def test_artifacts(request, suite_report_folder, suite_logger):
-    # Attach report folder and logger to node for use in hooks
     request.node._report_folder = suite_report_folder
     request.node._logger = suite_logger
     test_name = request.node.name.replace(' ', '_')
@@ -108,7 +109,6 @@ def pytest_runtest_makereport(item, call):
             logger = getattr(item, '_logger', None)
             if logger:
                 logger.log(f"Test failed: {item.name}")
-                # Log full exception info and traceback
                 if call.excinfo:
                     exc_type = call.excinfo.type.__name__
                     exc_msg = str(call.excinfo.value)

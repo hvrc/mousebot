@@ -6,19 +6,13 @@ SETUP_DATE = "02-01-2025"
 MATING_TAG_1 = "M3"
 MATING_TAG_2 = "M4"
 
-def test_mating_003(driver, config):
+def test_mating_003(driver):
     home_page = HomePage(driver)
     colony_page = ColonyPage(driver)
     matings_page = MatingsPage(driver)
-
-    # Verify on home page
     assert "homepage.do" in driver.current_url.lower(), "Not on home page!"
-
-    # Navigate to Colony module and Matings tab
     home_page.go_to_colony()
     colony_page.go_to_matings()
-
-    # Start new mating workflow
     matings_page.start_new_mating()
     matings_page.select_first_male()
     matings_page.select_first_female()
@@ -26,15 +20,9 @@ def test_mating_003(driver, config):
     matings_page.set_mating_tag(MATING_TAG_1)
     matings_page.select_first_strain()
     matings_page.add_mating()
-
-    # Add a second mating with next available female if present
     matings_page.add_second_mating_if_available(MATING_TAG_2)
-
-    # Move breeders and create/update cages
     matings_page.move_breeders()
     matings_page.create_update_cages()
     matings_page.done()
-
-    # Go back home by pressing home button (now via POM)
     matings_page.go_home()
     assert "homepage.do" in driver.current_url.lower()

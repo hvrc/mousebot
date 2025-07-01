@@ -1,11 +1,11 @@
 import configparser
 import os
 
+# get config variables from config.ini, credentials.ini
+# merges credentials into config
 def get_config():
-    """Read and return configuration from config.ini and credentials.ini"""
     config = configparser.ConfigParser()
     credentials = configparser.ConfigParser()
-    
     base_path = os.path.dirname(os.path.dirname(__file__))
     config_path = os.path.join(base_path, 'config', 'config.ini')
     credentials_path = os.path.join(base_path, 'config', 'credentials.ini')
@@ -19,7 +19,6 @@ def get_config():
     config.read(config_path)
     credentials.read(credentials_path)
     
-    # Merge credentials into config
     for section in credentials.sections():
         if section not in config:
             config[section] = {}

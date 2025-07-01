@@ -1,11 +1,10 @@
+import time
 from .base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 
 class LittersPage(BasePage):
-    # XPATH selectors
     POPUP_OK_BTN_XPATH = "//div[contains(@class, 'ui-dialog-buttonset')]//span[text()='OK']/.."
     HOME_BUTTON_XPATH = "//li[@id='home']//a[contains(@href, 'HomePage.do')]"
     LITTERS_TAB_XPATH = "//a[contains(@href, 'smdb/litter/list.do')]"
@@ -15,7 +14,6 @@ class LittersPage(BasePage):
     LITTER_PUPS_CHECKBOX_CSS = "#litterTable tbody tr[id] input.cbox"
     PUP_WEAN_CHECKBOX_CSS = "#mouseTableWean tbody tr[id] input.cbox"
 
-    # ID selectors
     FIRST_MATING_CHECKBOX_ID = "matinglist_table"
     NEW_LITTER_BTN_ID = "newLitter4MatingMenuButton"
     DOB_INPUT_ID = "birthDatePicker"
@@ -34,7 +32,6 @@ class LittersPage(BasePage):
     DELETE_LITTERS_BTN_ID = "deleteLitterBtn"
     EMPTY_LITTERS_MSG = "No litters to show!"
 
-    # Tuple selectors
     FIRST_MATING_CHECKBOX = (By.CSS_SELECTOR, "#matinglist_table tbody tr[id] input.cbox")
     NEW_LITTER_BTN = (By.ID, NEW_LITTER_BTN_ID)
     DOB_INPUT = (By.ID, DOB_INPUT_ID)
@@ -60,16 +57,24 @@ class LittersPage(BasePage):
     EMPTY_MESSAGE = (By.XPATH, EMPTY_MESSAGE_XPATH)
     FIRST_LITTER_CHECKBOX = (By.XPATH, FIRST_LITTER_CHECKBOX_XPATH)
 
+    # select first mating checkbox, out of all mating records
     def select_first_mating(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.FIRST_MATING_CHECKBOX)
         ).click()
-        time.sleep(0.5)
-
-    def click_new_litter(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.NEW_LITTER_BTN)).click()
         time.sleep(1)
 
+    # click new litter button
+    # this should be in matings page
+    def click_new_litter(self):
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.NEW_LITTER_BTN)
+        ).click()
+        time.sleep(1)
+
+    # in group edit mating,
+    # enter date of birth
+    # needs to be in MM-DD-YYYY format
     def enter_dob(self, dob):
         dob_input = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.DOB_INPUT)
@@ -77,82 +82,105 @@ class LittersPage(BasePage):
         self.driver.execute_script("arguments[0].removeAttribute('readonly')", dob_input)
         dob_input.clear()
         dob_input.send_keys(dob)
-        time.sleep(0.5)
+        time.sleep(1)
 
+    # in group edit mating,
+    # click create litters button
     def create_litters(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.CREATE_LITTERS_BTN)
         ).click()
-        time.sleep(0.5)
+        time.sleep(1)
 
+    # in group edit mating, success pop up after creating litters
+    # in add pups page, success pop up after adding pups
+    # works for delete case as well
+    # after pressing ok you stay on the same page
     def confirm_popup(self):
         try:
-            WebDriverWait(self.driver, 5).until(EC.alert_is_present())
+            WebDriverWait(self.driver, 10).until(EC.alert_is_present())
             alert = self.driver.switch_to.alert
             alert.accept()
-            time.sleep(0.5)
+            time.sleep(1)
         except Exception:
             WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable(self.POPUP_OK_BTN)
             ).click()
-            time.sleep(0.5)
+            time.sleep(1)
 
+    # this helps us navigate to litters tab,
+    # so that we can see the litter list
     def go_to_litters_tab(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LITTERS_TAB)
         ).click()
         time.sleep(1)
 
+    # selects the first litter checkbox,
+    # from the list of litter records
     def select_first_litter(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.FIRST_LITTER_CHECKBOX)
         ).click()
-        time.sleep(0.5)
+        time.sleep(1)
 
+    # click add pups button in litter page/tab
     def click_add_pups(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.ADD_PUPS_BTN)
         ).click()
-        time.sleep(0.5)
+        time.sleep(1)
 
+    # in add pups page, 
+    # select first litter pups checkbox
     def select_first_litter_pups(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LITTER_PUPS_CHECKBOX)
         ).click()
-        time.sleep(0.5)
+        time.sleep(1)
 
+    # in add pups page,
+    # select males dropdown
     def select_males_dropdown(self, value):
         from selenium.webdriver.support.ui import Select
         males_dropdown = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.MALES_DROPDOWN)
         )
         Select(males_dropdown).select_by_value(value)
-        time.sleep(0.5)
+        time.sleep(1)
 
+    # in add pups page,
+    # click submit pups button
     def click_submit_pups(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.SUBMIT_PUPS_BTN)
         ).click()
-        time.sleep(0.5)
-
-    def click_apply_button(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.APPLY_BUTTON)
-        ).click()
         time.sleep(1)
 
+    # wean litter button in litter page/tab
     def click_wean_litters(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.WEAN_LITTERS_BTN)
         ).click()
         time.sleep(1)
 
+    # apply button on wean litter page
+    # after adding details for weanlings
+    def click_apply_button(self):
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.APPLY_BUTTON)
+        ).click()
+        time.sleep(1)
+
+    # on wean litter page,
+    # select first weanling from records
     def select_first_pup_wean(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.PUP_WEAN_CHECKBOX)
         ).click()
-        time.sleep(0.5)
+        time.sleep(1)
 
+    # physical tag on wean litter page, two blanks
     def enter_physical_tag(self, prefix, start_index):
         tag_prefix = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.TAG_PREFIX_INPUT)
@@ -164,56 +192,64 @@ class LittersPage(BasePage):
         )
         tag_start.clear()
         tag_start.send_keys(str(start_index))
-        time.sleep(0.5)
-
-    def click_wean_move_button(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.WEAN_MOVE_BTN)
-        ).click()
         time.sleep(1)
 
+    # button on wean litter page
     def click_create_update_cages_button(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.CREATE_UPDATE_CAGES_BTN)
         ).click()
         time.sleep(1)
 
+    # this has been redundantly defined!
+    # move animals
+    def click_wean_move_button(self):
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.WEAN_MOVE_BTN)
+        ).click()
+        time.sleep(1)
+
+    # this has been redundantly defined!
+    # move summary
     def click_done_button(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.DONE_BTN)
         ).click()
         time.sleep(1)
-
+    
+    # this should be in colony page!
     def go_to_animals_tab(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.ANIMALS_TAB)
         ).click()
         time.sleep(1)
 
+    # this should be in colony page!
     def go_home(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.HOME_BUTTON)
         ).click()
         time.sleep(1)
 
+    # trash can button, handle popup
     def delete_all_litters(self):
         select_all = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.SELECT_ALL_LITTERS)
         )
-        if select_all.is_displayed() and select_all.is_enabled():
-            select_all.click()
-            time.sleep(0.5)
-            delete_btn = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable(self.DELETE_LITTERS_BTN)
-            )
-            delete_btn.click()
-            self.confirm_popup()
-            self.wait_for_empty_message()
-        else:
-            print("No litters to delete or select-all checkbox not interactable.")
+        select_all.click()
+        time.sleep(1)
+        delete_btn = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.DELETE_LITTERS_BTN)
+        )
+        delete_btn.click()
+        self.confirm_popup()
+        self.wait_for_empty_message()
 
+    # this shuold be in colony page!
+    # the message should be defined here
+    # wait till all litter records are deleted
     def wait_for_empty_message(self):
-        WebDriverWait(self.driver, 15).until(
+        WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located(self.EMPTY_MESSAGE)
         )
         time.sleep(1)

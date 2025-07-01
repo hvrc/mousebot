@@ -1,7 +1,8 @@
 import os
 import time
 
-class TestLogger:
+# writes logs to a file
+class Logger:
     def __init__(self, log_dir, test_name):
         os.makedirs(log_dir, exist_ok=True)
         self.log_path = os.path.join(log_dir, 'log.txt')

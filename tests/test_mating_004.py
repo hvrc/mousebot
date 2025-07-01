@@ -7,11 +7,10 @@ SETUP_DATE = "01-02-2025"
 MATING_TAG = "M5"
 SCREENSHOT_NAME = "test_mating_004_warning"
 
-def test_mating_004(driver, config, request):
+def test_mating_004(driver, request):
     home_page = HomePage(driver)
     colony_page = ColonyPage(driver)
     matings_page = MatingsPage(driver)
-
     home_page.go_to_colony()
     colony_page.go_to_matings()
     matings_page.start_new_mating()
@@ -21,9 +20,6 @@ def test_mating_004(driver, config, request):
     matings_page.set_mating_tag(MATING_TAG)
     matings_page.select_first_strain()
     matings_page.add_mating()
-
-    # Handle warning popup and take screenshot if popup appears
-    # Save screenshot in the suite report folder if available
     report_folder = getattr(request.node, '_report_folder', 'reports')
     take_screenshot(driver, output_dir=report_folder, name=SCREENSHOT_NAME)
     matings_page.handle_warning_popup_and_go_home()
