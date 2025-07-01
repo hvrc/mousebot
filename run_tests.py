@@ -22,7 +22,7 @@ def print_test_suite(selected=None):
 
 def main():
     print_test_suite()
-    print("\nSelect test numbers to run (comma-separated, e.g. 0,2,3) or 'a' for all:")
+    print("\nSelect test numbers to run separated by commas or 'a' for all:")
     user_input = input("user: ").strip()
     if user_input.lower() == 'a':
         selected = list(range(len(test_files)))

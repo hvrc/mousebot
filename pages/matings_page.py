@@ -1,6 +1,8 @@
 from .base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
 class MatingsPage(BasePage):
@@ -20,6 +22,13 @@ class MatingsPage(BasePage):
     HOME_BTN = (By.XPATH, "//li[@id='home']//a[contains(@href, 'HomePage.do')]")
     # Additional selectors for dynamic elements
     ALL_FEMALE_CHECKBOXES = (By.CSS_SELECTOR, "table#femalemouseTable tbody input.cbox[type='checkbox']")
+
+    # Add these class variables at the top if not present
+    SELECT_ALL_MATINGS_ID = "cb_matinglist_table"
+    DISBAND_BTN_ID = "disbandmatingButton"
+    DEACTIVATE_BTN_ID = "applydisbandMating"
+    EMPTY_MATINGS_MSG = "No matings to show!"
+    EMPTY_MESSAGE_XPATH_TEMPLATE = "//span[contains(text(), '{message}')]"
 
     def go_to_matings_tab(self):
         self.click_element(*self.MATINGS_TAB)
@@ -95,3 +104,26 @@ class MatingsPage(BasePage):
     def go_home(self):
         self.click_element(*self.HOME_BTN)
         time.sleep(2)
+
+    def disband_and_deactivate_all_matings(self):
+        try:
+            self.click_element(By.ID, self.SELECT_ALL_MATINGS_ID)
+            time.sleep(1)
+            self.click_element(By.ID, self.DISBAND_BTN_ID)
+            time.sleep(1)
+            self.click_element(By.ID, self.DEACTIVATE_BTN_ID)
+            self.wait_for_empty_message(self.EMPTY_MATINGS_MSG)
+        except Exception:
+            pass
+
+    def wait_for_empty_message(self, message):
+        wait = WebDriverWait(self.driver, 15)
+        try:
+            xpath = self.EMPTY_MESSAGE_XPATH_TEMPLATE.format(message=message)
+            empty_message = wait.until(
+                EC.visibility_of_element_located((By.XPATH, xpath))
+            )
+            assert empty_message.is_displayed()
+            time.sleep(2)
+        except Exception:
+            pass

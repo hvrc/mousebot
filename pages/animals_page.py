@@ -8,7 +8,7 @@ class AnimalsPage(BasePage):
     ANIMALS_TAB_ID = "mice"
     SELECT_ALL_ANIMALS_ID = "cb_mouseTable"
     DELETE_ANIMALS_BTN_ID = "deleteMouseMenuButton"
-    EMPTY_ANIMALS_MSG = "No Animals to show!"
+    EMPTY_ANIMALS_MSG = "No animals to show!"
     EMPTY_MESSAGE_XPATH_TEMPLATE = "//span[contains(text(), '{message}')]"
 
     def go_to_animals_tab(self):
