@@ -40,10 +40,10 @@ def main():
     print("\nRunning selected tests:")
     for idx in selected:
         print(f"- {os.path.splitext(os.path.basename(test_files[idx]))[0]}")
-    # Build pytest args and prepend config path
-    pytest_args = ['-c', 'config/pytest.ini'] + [test_files[idx] for idx in selected]
+    # Run all selected tests in a single pytest session, stop on first failure
+    pytest_args = ['-c', 'config/pytest.ini', '--maxfail=1', '--exitfirst'] + [test_files[idx] for idx in selected]
     print("\nStarting test session...")
-    pytest.main(pytest_args)
+    result = pytest.main(pytest_args)
     print("\nTest session ended.")
     # Print the report folder location
     try:
