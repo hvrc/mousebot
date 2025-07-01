@@ -23,7 +23,7 @@ def print_test_suite(selected=None):
 def main():
     print_test_suite()
     print("\nSelect test numbers to run separated by commas or 'a' for all:")
-    user_input = input("user: ").strip()
+    user_input = input()
     if user_input.lower() == 'a':
         selected = list(range(len(test_files)))
     else:
@@ -38,28 +38,26 @@ def main():
     print("\nRunning selected tests:")
     for idx in selected:
         print(f"- {os.path.splitext(os.path.basename(test_files[idx]))[0]}")
-    # Build pytest args
-    html_report = "reports/report_selected.html" if len(selected) > 1 else f"reports/report_{os.path.splitext(os.path.basename(test_files[selected[0]]))[0]}.html"
-    pytest_args = [
-        "-s",
-        f"--html={html_report}",
-        "--no-header",
-        "--tb=no",
-        "-q",
-    ] + [test_files[idx] for idx in selected]
-    print("\nStarting pytest session...")
+    # Build pytest args (only test files, all output suppression is in pytest.ini)
+    pytest_args = [test_files[idx] for idx in selected]
+    print("\nStarting test session...")
     pytest.main(pytest_args)
-    print("\nAll selected tests have been run. Report:", html_report)
-    input("\nPress [Enter] to exit suite.\n")
-    # After Enter, quit the browser
+    print("\nAll selected tests have been run.")
+    # Print the report folder location
     try:
-        conftest = importlib.import_module("tests.conftest")
-        driver = conftest.get_global_driver()
-        if driver:
-            driver.quit()
-            print("Browser closed.")
+        # Dynamically find the latest test_report_n folder in reports/
+        reports_dir = os.path.join(os.path.dirname(__file__), 'reports')
+        all_reports = [d for d in os.listdir(reports_dir) if d.startswith('test_report_')]
+        if all_reports:
+            latest = max(all_reports, key=lambda d: int(d.split('_')[-1]))
+            report_folder = os.path.abspath(os.path.join(reports_dir, latest))
+            print(f"\nReport generated at: {report_folder}")
+        else:
+            print("\nReport folder location could not be determined.")
     except Exception as e:
-        print(f"Could not close browser automatically: {e}")
+        print(f"\nReport folder location could not be determined. ({e})")
+    input("\nPress [Enter] to exit suite.\n")
+    # Browser will be closed by pytest fixture finalizer. No manual shutdown here.
 
 if __name__ == "__main__":
     main()

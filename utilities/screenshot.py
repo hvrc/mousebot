@@ -1,10 +1,9 @@
 import os
 import time
 
-def take_screenshot(driver, name=None):
-    """Take a full-page screenshot of all open tabs and save to screenshots/ directory."""
-    screenshots_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'screenshots')
-    os.makedirs(screenshots_dir, exist_ok=True)
+def take_screenshot(driver, output_dir, name=None):
+    """Take a full-page screenshot of all open tabs and save to the specified output_dir."""
+    os.makedirs(output_dir, exist_ok=True)
     timestamp = time.strftime('%Y%m%d_%H%M%S')
     if not name:
         name = f'screenshot_{timestamp}'
@@ -19,9 +18,9 @@ def take_screenshot(driver, name=None):
         driver.switch_to.window(handle)
         # Ensure the page is fully loaded
         time.sleep(0.5)
-        # Append tab index to filename to differentiate screenshots
-        tab_name = f"{name}_tab_{index + 1}.png"
-        filepath = os.path.join(screenshots_dir, tab_name)
+        # Name screenshots as <testname>_screenshot_1.png, ...
+        tab_name = f"{name}_screenshot_{index + 1}.png"
+        filepath = os.path.join(output_dir, tab_name)
         driver.save_screenshot(filepath)
         screenshots.append(filepath)
 
