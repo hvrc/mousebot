@@ -1,6 +1,14 @@
 from pages.home_page import HomePage
 from pages.litters_page import LittersPage
 
+# 1. From Home Page, click on modules icon and navigate to "Colony" module.
+# 2. Navigate to Litters tab.
+# 3. Select litter.
+# 4. Click "Add Pups" button.
+# 5. Select litter.
+# 6. Add number of males, females, unknown.
+# 7. Click "Submit" button and "OK" on pop-up.
+
 MALE_PUPS_COUNT = "1"
 
 def test_pups_001(driver):

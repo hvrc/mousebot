@@ -1,6 +1,15 @@
 import os
 from pages.import_page import ImportPage
 
+# 1. From Home Page, click on modules icon and navigate to "Colony" module.
+# 2. From Colony module, click "Import" button in top right.
+# 3. Optionally, click "Download Template with Test Data" hyperlink.
+# 4. Click "Upload File" button.
+# 5. Select either "Template with Test Data.xlsx" or any valid .xlsx file via file upload input.
+# 6. Click "Check for Errors" button.
+# 7. Verify no errors or warnings appear.
+# 8. Click "Proceed to Import" button.
+
 def test_import_001(driver, config):
     import_page = ImportPage(driver)
     assert "homepage" in driver.current_url.lower() or "home" in driver.current_url.lower()

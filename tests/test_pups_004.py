@@ -1,6 +1,17 @@
 from pages.home_page import HomePage
 from pages.litters_page import LittersPage
 
+# 1. From Home Page, click on modules icon and navigate to "Colony" module.
+# 2. Navigate to Litters tab.
+# 3. Select a litter record.
+# 4. Click "Wean Litters" button.
+# 5. Select pups to be weaned.
+# 7. Set Physical Tag.
+# 8. Click "Apply"
+# 9. Click "Wean Pups and Move Weanlings into Cages" button
+# 10. Verify data on Move Animals page, click "Create/Update Cages" button.
+# 11. Verify data on Move Summary page, click "Done" button.
+
 TAG_PREFIX = "B"
 TAG_START_INDEX = 1
 

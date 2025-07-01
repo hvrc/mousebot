@@ -3,6 +3,15 @@ from pages.colony_page import ColonyPage
 from pages.matings_page import MatingsPage
 from utilities.screenshot import take_screenshot
 
+# 1. From Home Page, click on modules icon and navigate to "Colony" module.
+# 2. Navigate to Matings tab.
+# 3. Click "New Matings" button.
+# 4. Select one male and one female.
+# 5. Enter set up date earlier than either animal’s wean date.
+# 6. Click "Add" button.
+# 7. Verify pop-up with warning message appears.
+# 8. Click "OK" on pop-up.
+
 SETUP_DATE = "01-02-2025"
 MATING_TAG = "M5"
 SCREENSHOT_NAME = "test_mating_004_warning"
