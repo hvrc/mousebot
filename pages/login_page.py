@@ -6,8 +6,6 @@ class LoginPage(BasePage):
     USERNAME_FIELD = (By.ID, "inputUsernameEmail")
     PASSWORD_FIELD = (By.ID, "inputPassword")
     LOGIN_BUTTON = (By.ID, "secureLogin")
-    MODULES_BUTTON = (By.ID, "apps-selected-open")
-    COLONY_BUTTON = (By.XPATH, "//a[contains(@href, 'smdb/mouse/list.do')]")
 
     def login(self, username, password):
         self.find_element(*self.USERNAME_FIELD).send_keys(username)

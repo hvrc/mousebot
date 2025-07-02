@@ -1,62 +1,34 @@
 import time
-from .base_page import BasePage
-from .colony_page import ColonyPage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
+from .base_page import BasePage
+from .colony_page import ColonyPage
 
 class LittersPage(BasePage):
-    POPUP_OK_BTN_XPATH = "//div[contains(@class, 'ui-dialog-buttonset')]//span[text()='OK']/.."
-    HOME_BUTTON_XPATH = "//li[@id='home']//a[contains(@href, 'HomePage.do')]"
-    LITTERS_TAB_XPATH = "//a[contains(@href, 'smdb/litter/list.do')]"
-    FIRST_LITTER_CHECKBOX_XPATH = "//table[@id='litter_table']//tbody//tr[@id]//input[contains(@class, 'cbox')]"
-    # ANIMALS_TAB_XPATH = "//a[contains(@href, 'smdb/mouse/list.do') and contains(text(), 'Animals')]"
-    EMPTY_MESSAGE_XPATH = "//span[contains(text(), 'No litters to show!')]"
-    LITTER_PUPS_CHECKBOX_CSS = "#litterTable tbody tr[id] input.cbox"
-    PUP_WEAN_CHECKBOX_CSS = "#mouseTableWean tbody tr[id] input.cbox"
-
-    FIRST_MATING_CHECKBOX_ID = "matinglist_table"
-    NEW_LITTER_BTN_ID = "newLitter4MatingMenuButton"
-    DOB_INPUT_ID = "birthDatePicker"
-    CREATE_LITTERS_BTN_ID = "editSaveNewLitter"
-    ADD_PUPS_BTN_ID = "addPupsBtn"
-    MALES_DROPDOWN_ID = "males"
-    SUBMIT_PUPS_BTN_ID = "addPups"
-    APPLY_BUTTON_ID = "boxApply"
-    WEAN_LITTERS_BTN_ID = "weanLitterBtn"
-    WEAN_MOVE_BTN_ID = "editSubmitMove"
-    CREATE_UPDATE_CAGES_BTN_ID = "moveApply"
-    DONE_BTN_ID = "backbtn"
-    TAG_PREFIX_INPUT_ID = "tagPrefix"
-    TAG_START_INDEX_INPUT_ID = "tagStartIndex"
-    SELECT_ALL_LITTERS_ID = "cb_litter_table"
-    DELETE_LITTERS_BTN_ID = "deleteLitterBtn"
     EMPTY_LITTERS_MSG = "No litters to show!"
-
     FIRST_MATING_CHECKBOX = (By.CSS_SELECTOR, "#matinglist_table tbody tr[id] input.cbox")
-    NEW_LITTER_BTN = (By.ID, NEW_LITTER_BTN_ID)
-    DOB_INPUT = (By.ID, DOB_INPUT_ID)
-    CREATE_LITTERS_BTN = (By.ID, CREATE_LITTERS_BTN_ID)
-    POPUP_OK_BTN = (By.XPATH, POPUP_OK_BTN_XPATH)
-    HOME_BUTTON = (By.XPATH, HOME_BUTTON_XPATH)
-    LITTERS_TAB = (By.XPATH, LITTERS_TAB_XPATH)
-    ADD_PUPS_BTN = (By.ID, ADD_PUPS_BTN_ID)
-    MALES_DROPDOWN = (By.ID, MALES_DROPDOWN_ID)
-    SUBMIT_PUPS_BTN = (By.ID, SUBMIT_PUPS_BTN_ID)
-    APPLY_BUTTON = (By.ID, APPLY_BUTTON_ID)
-    WEAN_LITTERS_BTN = (By.ID, WEAN_LITTERS_BTN_ID)
-    WEAN_MOVE_BTN = (By.ID, WEAN_MOVE_BTN_ID)
-    CREATE_UPDATE_CAGES_BTN = (By.ID, CREATE_UPDATE_CAGES_BTN_ID)
-    DONE_BTN = (By.ID, DONE_BTN_ID)
-    TAG_PREFIX_INPUT = (By.ID, TAG_PREFIX_INPUT_ID)
-    TAG_START_INDEX_INPUT = (By.ID, TAG_START_INDEX_INPUT_ID)
-    SELECT_ALL_LITTERS = (By.ID, SELECT_ALL_LITTERS_ID)
-    DELETE_LITTERS_BTN = (By.ID, DELETE_LITTERS_BTN_ID)
-    LITTER_PUPS_CHECKBOX = (By.CSS_SELECTOR, LITTER_PUPS_CHECKBOX_CSS)
-    PUP_WEAN_CHECKBOX = (By.CSS_SELECTOR, PUP_WEAN_CHECKBOX_CSS)
-    # ANIMALS_TAB = (By.XPATH, ANIMALS_TAB_XPATH)
-    EMPTY_MESSAGE = (By.XPATH, EMPTY_MESSAGE_XPATH)
-    FIRST_LITTER_CHECKBOX = (By.XPATH, FIRST_LITTER_CHECKBOX_XPATH)
+    DOB_INPUT = (By.ID, "birthDatePicker")
+    CREATE_LITTERS_BTN = (By.ID, "editSaveNewLitter")
+    POPUP_OK_BTN = (By.XPATH, "//div[contains(@class, 'ui-dialog-buttonset')]//span[text()='OK']/..")
+    LITTERS_TAB = (By.XPATH, "//a[contains(@href, 'smdb/litter/list.do')]")
+    ADD_PUPS_BTN = (By.ID, "addPupsBtn")
+    MALES_DROPDOWN = (By.ID, "males")
+    SUBMIT_PUPS_BTN = (By.ID, "addPups")
+    APPLY_BUTTON = (By.ID, "boxApply")
+    WEAN_LITTERS_BTN = (By.ID, "weanLitterBtn")
+    WEAN_MOVE_BTN = (By.ID, "editSubmitMove")
+    CREATE_UPDATE_CAGES_BTN = (By.ID, "moveApply")
+    DONE_BTN = (By.ID, "backbtn")
+    TAG_PREFIX_INPUT = (By.ID, "tagPrefix")
+    TAG_START_INDEX_INPUT = (By.ID, "tagStartIndex")
+    SELECT_ALL_LITTERS = (By.ID, "cb_litter_table")
+    DELETE_LITTERS_BTN = (By.ID, "deleteLitterBtn")
+    LITTER_PUPS_CHECKBOX = (By.CSS_SELECTOR, "#litterTable tbody tr[id] input.cbox")
+    PUP_WEAN_CHECKBOX = (By.CSS_SELECTOR, "#mouseTableWean tbody tr[id] input.cbox")
+    EMPTY_MESSAGE = (By.XPATH, "//span[contains(text(), EMPTY_LITTERS_MSG)]")
+    FIRST_LITTER_CHECKBOX = (By.XPATH, "//table[@id='litter_table']//tbody//tr[@id]//input[contains(@class, 'cbox')]")
 
     # select first mating checkbox, out of all mating records
     def select_first_mating(self):
@@ -135,7 +107,6 @@ class LittersPage(BasePage):
     # in add pups page,
     # select males dropdown
     def select_males_dropdown(self, value):
-        from selenium.webdriver.support.ui import Select
         males_dropdown = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.MALES_DROPDOWN)
         )
@@ -222,4 +193,5 @@ class LittersPage(BasePage):
         )
         delete_btn.click()
         self.confirm_popup()
-        ColonyPage(self.driver).wait_for_empty_message(self.EMPTY_LITTERS_MSG)
+        colonyPage = ColonyPage(self.driver)
+        colonyPage.wait_for_empty_message(self.EMPTY_LITTERS_MSG)

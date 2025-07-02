@@ -1,4 +1,3 @@
-from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from pages.litters_page import LittersPage
 from pages.matings_page import MatingsPage
@@ -7,7 +6,6 @@ from pages.strains_page import StrainsPage
 from pages.colony_page import ColonyPage
 
 def test_reset_001(driver):
-    login_page = LoginPage(driver)
     home_page = HomePage(driver)
     litters_page = LittersPage(driver)
     matings_page = MatingsPage(driver)

@@ -1,7 +1,7 @@
+import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-import time
 
 # wait for elements to be present or clickable
 # finds elements and clicks them
@@ -26,7 +26,6 @@ class BasePage:
             alert.accept()
             time.sleep(1)
         except Exception:
-            # fallback for custom popups
             try:
                 ok_btn = self.wait.until(EC.element_to_be_clickable((
                     By.XPATH, self.CONFIRM_OK_BTN_XPATH
